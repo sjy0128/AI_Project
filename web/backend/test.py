@@ -1,0 +1,1 @@
+print(bytes.fromhex('C8CB').decode("gb2312"))
