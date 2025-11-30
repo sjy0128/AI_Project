@@ -16,6 +16,7 @@ sys.path.append(PROJECT_DIR)
 from AI.train import CNN    # cnn 클래스 이름
 
 app = Flask(__name__)
+port = int(os.environ.get("PORT", 5000))
 CORS(app)
 
 DATA_DIR = os.path.join(PROJECT_DIR, "AI", "data", "train")
@@ -101,5 +102,4 @@ def predict():
     })
 
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
