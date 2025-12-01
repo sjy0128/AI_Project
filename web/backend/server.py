@@ -19,7 +19,7 @@ from AI.train import CNN
 app = Flask(__name__)
 CORS(app)
 
-port = int(os.environ.get("PORT", 5000))
+port = int(os.environ.get("PORT", 10000))
 
 with open("labels.json", "r", encoding="utf-8") as f:
     labels = json.load(f)
@@ -54,11 +54,9 @@ def predict():
 
     img_base64 = data["image"]
 
-    # DataURL 형식 → "data:image/png;base64,XXXX" → 실제 base64만 추출
     if "," in img_base64:
         img_base64 = img_base64.split(",")[1]
 
-    # base64 → PIL Image
     try:
         img_bytes = base64.b64decode(img_base64)
         img = Image.open(io.BytesIO(img_bytes)).convert("L")
