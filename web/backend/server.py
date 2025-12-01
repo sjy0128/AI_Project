@@ -7,23 +7,23 @@ from flask import Flask, request, jsonify
 from PIL import Image, ImageOps
 import torch
 import torchvision.transforms as T
+import json
 from flask_cors import CORS
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))      # web/backend
-PROJECT_DIR = os.path.join(BASE_DIR, "..", "..")           # Project
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+PROJECT_DIR = os.path.join(BASE_DIR, "..", "..")
 sys.path.append(PROJECT_DIR)
 
-from AI.train import CNN    # cnn 클래스 이름
+from AI.train import CNN
 
 app = Flask(__name__)
-port = int(os.environ.get("PORT", 5000))
 CORS(app)
 
-DATA_DIR = os.path.join(PROJECT_DIR, "AI", "data", "train")
-labels = sorted([
-    d for d in os.listdir(DATA_DIR)
-    if os.path.isdir(os.path.join(DATA_DIR, d))
-])
+port = int(os.environ.get("PORT", 5000))
+
+with open("labels.json", "r", encoding="utf-8") as f:
+    labels = json.load(f)
+
 num_classes = 4037
 print(f"[INFO] Loaded {num_classes} classes")
 
@@ -67,22 +67,9 @@ def predict():
     except Exception as e:
         return jsonify({"error": "Invalid image"}), 400
 
-    # 전처리
     x = transform(img).unsqueeze(0)
 
-    # 추론
     with torch.no_grad():
-        '''
-        pred = model(x)
-        cls = pred.argmax(dim=1).item()
-
-    label = decoding(labels[cls])
-
-    return jsonify({
-        "class": f'{label}({labels[cls]})',
-        "index": cls
-    })
-    '''
         output = model(x)
         probs = torch.softmax(output, dim = 1)
 
