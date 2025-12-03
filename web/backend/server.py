@@ -9,6 +9,7 @@ import torch
 import torchvision.transforms as T
 import json
 from flask_cors import CORS
+import uvicorn
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 PROJECT_DIR = os.path.join(BASE_DIR, "..", "..")
@@ -44,6 +45,10 @@ transform = T.Compose([
 
 def decoding(label):
     return bytes.fromhex(label[2:]).decode("gb2312")
+
+@app.route("/")
+def test():
+    return "Hello World!"
 
 @app.route("/predict", methods=["POST"])
 def predict():
@@ -87,4 +92,4 @@ def predict():
     })
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=port)
+    uvicorn.run(app, host="0.0.0.0", port=port, log_level="debug")
