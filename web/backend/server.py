@@ -19,7 +19,7 @@ from AI.train import CNN
 
 app = Flask(__name__)
 
-VERCEL_FRONTEND_URL = "ai-project-zeta-eight.vercel.app"
+VERCEL_FRONTEND_URL = "https://ai-project-zeta-eight.vercel.app"
 CORS(app, resources={r"/*": {"origins": VERCEL_FRONTEND_URL}})
 
 port = int(os.environ.get("PORT", 10000))
