@@ -18,7 +18,9 @@ sys.path.append(PROJECT_DIR)
 from AI.train import CNN
 
 app = Flask(__name__)
-CORS(app)
+
+VERCEL_FRONTEND_URL = "ai-project-zeta-eight.vercel.app"
+CORS(app, resources={r"/*": {"origins": VERCEL_FRONTEND_URL}})
 
 port = int(os.environ.get("PORT", 10000))
 
@@ -92,4 +94,4 @@ def predict():
     })
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=port, log_level="debug")
+    uvicorn.run(app, host="0.0.0.0", port=port)
