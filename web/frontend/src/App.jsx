@@ -73,7 +73,7 @@ function Canvas({setResult}) {
 
     const dataURL = tempCanvas.toDataURL("image/png");
 
-    const res = await fetch("https://0.0.0.0:10000/predict", {
+    const res = await fetch("https://ai-project-gia6.onrender.com/predict", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ image: dataURL })
