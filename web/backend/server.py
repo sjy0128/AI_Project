@@ -52,7 +52,7 @@ def decoding(label):
 def test():
     return "Hello World!"
 
-@app.route("/predict", methods=["POST"])
+@app.route("/predict", methods=["POST", "OPTIONS"])
 def predict():
     data = request.get_json()
 
