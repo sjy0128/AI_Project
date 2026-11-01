@@ -24,7 +24,7 @@ CORS(resources={r"/*": {"origins": VERCEL_FRONTEND_URL}})
 
 port = int(os.environ.get("PORT", 10000))
 
-with open("labels.json", "r", encoding="utf-8") as f:
+with open(os.path.join(BASE_DIR, "labels.json"), "r", encoding="utf-8") as f:
     labels = json.load(f)
 
 num_classes = 4037
@@ -92,6 +92,3 @@ def predict():
             for prob, cls in zip(values, indices)
         ]
     })
-
-if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=port)
