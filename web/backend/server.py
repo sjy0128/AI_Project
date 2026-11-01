@@ -54,9 +54,11 @@ def test():
 
 @app.route("/predict", methods=["POST", "OPTIONS"])
 def predict():
-    data = request.get_json()
+    if request.method == "OPTIONS":
+        return "", 200
 
-    if "image" not in data:
+    data = request.get_json(silent=True)
+    if not data or "image" not in data:
         return jsonify({"error": "image field missing"}), 400
 
     img_base64 = data["image"]
